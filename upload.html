@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video - AFG TikTok</title>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .container { margin-top: 50px; border: 1px dashed #444; padding: 30px; border-radius: 20px; }
+        .back-btn { position: absolute; top: 20px; left: 20px; color: #ffcc00; text-decoration: none; font-weight: bold; }
+        .upload-btn { background: #ffcc00; color: #000; padding: 15px 40px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; font-size: 16px; }
+        #progressContainer { display: none; margin-top: 20px; }
+        .progress-bar { width: 100%; background: #222; border-radius: 10px; height: 10px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: #ffcc00; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <a href="feed.html" class="back-btn">← بېرته شا ته</a>
+    
+    <div class="container">
+        <h2>نوې ویډیو انتخاب کړئ</h2>
+        <input type="file" id="videoInput" accept="video/*" style="margin: 20px 0;">
+        <button class="upload-btn" id="uploadBtn">اپلوډ پیل کړئ</button>
+        
+        <div id="progressContainer">
+            <p id="statusText">اپلوډ کېږي...</p>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const S_URL = "https://xriyykhfntrjktkdlijl.supabase.co";
+        const S_KEY = "sb_publishable_A-4CZgoE1jkKU8wXU9NNeEQ_hOvw-f_m";
+        const supabaseClient = supabase.createClient(S_URL, S_KEY);
+
+        document.getElementById('uploadBtn').onclick = async () => {
+            const file = document.getElementById('videoInput').files[0];
+            if (!file) { alert("مهرباني وکړئ یو فایل انتخاب کړئ!"); return; }
+
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('uploadBtn').disabled = true;
+
+            const fileName = `public/${Date.now()}_${file.name}`;
+            
+            const { data, error } = await supabaseClient.storage
+                .from('videos')
+                .upload(fileName, file);
+
+            if (error) {
+                alert("خطا: " + error.message);
+                document.getElementById('progressContainer').style.display = 'none';
+                document.getElementById('uploadBtn').disabled = false;
+            } else {
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('statusText').innerText = "مبارک شه! ویډیو په بریالیتوب سره اپلوډ شوه.";
+                setTimeout(() => { window.location.href = "feed.html"; }, 2000);
+            }
+        };
+    </script>
+</body>
+</html>
