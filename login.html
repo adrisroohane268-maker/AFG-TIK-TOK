@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - AFG TikTok</title>
+    <style>
+        body { background: #000; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; }
+        .login-card { text-align: center; padding: 40px; border: 1px solid #333; border-radius: 20px; width: 80%; }
+        .google-btn { background: #fff; color: #000; padding: 15px; border-radius: 30px; border: none; font-weight: bold; width: 100%; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>AFG TikTok</h1>
+        <p>د دوام لپاره خپل جیمیل وکاروئ</p>
+        <button class="google-btn" onclick="loginWithGoogle()">Sign in with Google</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const _supabase = supabase.createClient('https://xriyykhfntrjktkdlijl.supabase.co', 'sb_publishable_A-4CZgoE1jkKU8wXU9NNeEQ_hOvw-f_m');
+        
+        async function loginWithGoogle() {
+            const { data, error } = await _supabase.auth.signInWithOAuth({
+                provider: 'google',
+            });
+        }
+    </script>
+</body>
+</html>
