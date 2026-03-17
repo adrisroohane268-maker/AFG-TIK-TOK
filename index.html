@@ -3,29 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFG TikTok - Loading</title>
-</head>
-<body style="background: #000; color: #fff; text-align: center; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif;">
-    <div>
-        <h2 style="color: #ffcc00; font-size: 28px;">AFG TikTok</h2>
-        <div style="margin: 20px auto; width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid #ffcc00; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <p>انتظار وباسئ، ستا اکاونټ چک کېږي...</p>
-    </div>
-
-    <style>
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
-
+    <title>AFG TikTok</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="background: #000; margin: 0;">
     <script>
-        // ستا د Supabase معلومات
         const S_URL = "https://xriyykhfntrjktkdlijl.supabase.co";
         const S_KEY = "sb_publishable_A-4CZgoE1jkKU8wXU9NNeEQ_hOvw-f_m";
         const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
-        async function checkUser() {
-            // یو ثانیه صبر د ښکلا لپاره
-            setTimeout(async () => {
-                const { data: { user } } = await supabaseClient.auth.getUser();
-                if (user) {
-                    // که لاګ ان و، د ویډیوګانو مخ ته یې بوځه
+        async function fastRedirect() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (user) {
+                window.location.replace("feed.html");
+            } else {
+                window.location.replace("login.html");
+            }
+        }
+        fastRedirect();
+    </script>
+</body>
+</html>
